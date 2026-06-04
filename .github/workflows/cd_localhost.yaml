@@ -32,18 +32,14 @@ jobs:
 
       - name: Launch app in background
         run: |
-          cd djangotutorial
-          nohup ../.venv/bin/python manage.py runserver 0.0.0.0:8000 \
-            > "$RUNNER_TEMP/server.log" 2>&1 </dev/null &
-          disown
-          sleep 4
-          echo "Deployed version $(cat ../VERSION)"
-          # Health check: any HTTP response (incl. 404) means Django is up. Only network failure is a fail.
+          bash publish/launch_app.sh
+          sleep 5
+          echo "Deployed version $(cat VERSION)"
           STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8000/polls/ || echo "000")
           echo "HTTP status: $STATUS"
           if [ "$STATUS" = "000" ]; then
             echo "App failed to start"
-            cat "$RUNNER_TEMP/server.log"
+            cat server.log 2>/dev/null || true
             exit 1
           fi
-          echo "App is up ✅"
+          echo "App is up ✅ (PID $(cat server.pid 2>/dev/null))"
