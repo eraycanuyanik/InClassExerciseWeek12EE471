@@ -1,3 +1,9 @@
+## [2.0.1](https://github.com/eraycanuyanik/InClassExerciseWeek12EE471/compare/v2.0.0...v2.0.1) (2026-06-04)
+
+### Bug Fixes
+
+* Readme file changed fix ([af340b6](https://github.com/eraycanuyanik/InClassExerciseWeek12EE471/commit/af340b6b7ac9a3f65d818228ae01eb74c45fb94e))
+
 ## [2.0.0](https://github.com/eraycanuyanik/InClassExerciseWeek12EE471/compare/v1.1.0...v2.0.0) (2026-06-04)
 
 ### ⚠ BREAKING CHANGES
