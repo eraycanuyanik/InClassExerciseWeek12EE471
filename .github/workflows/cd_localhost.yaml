@@ -26,12 +26,16 @@ jobs:
 
       - name: Kill previous running instance
         run: |
-          pkill -f "manage.py runserver" || true
+          lsof -ti:8000 | xargs kill -9 2>/dev/null || true
+          pkill -f "manage.py runserver" 2>/dev/null || true
           sleep 2
 
       - name: Launch app in background
         run: |
           cd djangotutorial
-          nohup ../.venv/bin/python manage.py runserver 0.0.0.0:8000 > ../server.log 2>&1 &
-          sleep 3
+          nohup ../.venv/bin/python manage.py runserver 0.0.0.0:8000 \
+            > "$RUNNER_TEMP/server.log" 2>&1 </dev/null &
+          disown
+          sleep 4
           echo "Deployed version $(cat ../VERSION)"
+          curl -sSf -o /dev/null http://127.0.0.1:8000/ && echo "App is up ✅" || (echo "App failed to start"; cat "$RUNNER_TEMP/server.log"; exit 1)
