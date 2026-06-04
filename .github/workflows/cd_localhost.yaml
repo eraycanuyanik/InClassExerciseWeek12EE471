@@ -26,6 +26,7 @@ jobs:
 
       - name: Kill previous running instance
         run: |
+          screen -S django-app -X quit 2>/dev/null || true
           lsof -ti:8000 | xargs kill -9 2>/dev/null || true
           pkill -f "manage.py runserver" 2>/dev/null || true
           sleep 2
@@ -42,4 +43,5 @@ jobs:
             cat server.log 2>/dev/null || true
             exit 1
           fi
-          echo "App is up ✅ (PID $(cat server.pid 2>/dev/null))"
+          echo "App is up ✅"
+          screen -ls | grep django-app || true
