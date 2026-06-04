@@ -1,3 +1,9 @@
+## [2.0.2](https://github.com/eraycanuyanik/InClassExerciseWeek12EE471/compare/v2.0.1...v2.0.2) (2026-06-04)
+
+### Bug Fixes
+
+* trigger CD deployment ([3cfdb92](https://github.com/eraycanuyanik/InClassExerciseWeek12EE471/commit/3cfdb929a0e2992f63805d64b186e22449839064))
+
 ## [2.0.1](https://github.com/eraycanuyanik/InClassExerciseWeek12EE471/compare/v2.0.0...v2.0.1) (2026-06-04)
 
 ### Bug Fixes
