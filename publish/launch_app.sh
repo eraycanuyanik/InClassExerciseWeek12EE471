@@ -18,8 +18,10 @@ screen -S django-app -X quit 2>/dev/null || true
 sleep 1
 
 # Start fresh detached session.
-screen -L -Logfile "$LOG_FILE" -dmS django-app \
-    "$REPO_ROOT/.venv/bin/python" manage.py runserver 0.0.0.0:8000 --noreload
+# macOS ships an ancient `screen` (4.00.03) that has no -Logfile flag, so
+# we redirect via shell instead.
+screen -dmS django-app bash -c \
+    "exec '$REPO_ROOT/.venv/bin/python' manage.py runserver 0.0.0.0:8000 --noreload >>'$LOG_FILE' 2>&1"
 
 echo "Launched in screen session 'django-app'"
 screen -ls | grep django-app || true
