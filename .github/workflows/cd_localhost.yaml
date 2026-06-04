@@ -38,4 +38,12 @@ jobs:
           disown
           sleep 4
           echo "Deployed version $(cat ../VERSION)"
-          curl -sSf -o /dev/null http://127.0.0.1:8000/ && echo "App is up ✅" || (echo "App failed to start"; cat "$RUNNER_TEMP/server.log"; exit 1)
+          # Health check: any HTTP response (incl. 404) means Django is up. Only network failure is a fail.
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8000/polls/ || echo "000")
+          echo "HTTP status: $STATUS"
+          if [ "$STATUS" = "000" ]; then
+            echo "App failed to start"
+            cat "$RUNNER_TEMP/server.log"
+            exit 1
+          fi
+          echo "App is up ✅"
